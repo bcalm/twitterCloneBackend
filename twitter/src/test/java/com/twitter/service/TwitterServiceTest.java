@@ -80,19 +80,19 @@ public class TwitterServiceTest {
         Assertions.assertThat(this.twitterService.getLikeTweets()).containsExactly(tweet2);
     }
 
-//    @Test
-//    public void shouldAddTheTweet() {
-//        Tweet tweet = new Tweet("testing", "bcalm", "Vikram", "20-10-2020");
-//        TweetActions tweetActions = new TweetActions(false, false, false, 0, 0, 0);
-//        Twitter twitter = new Twitter("bcalm", "vikram", "20-10-2020", 0, 0);
-//
-//        Mockito.when(this.tweetRepository.save(tweet)).thenReturn(tweet);
-//        Mockito.when(this.tweetActionRepository.save(tweetActions)).thenReturn(tweetActions);
-//        Mockito.when(this.twitterRepository.findAll()).thenReturn(Collections.singletonList(twitter));
-//        Mockito.when(this.tweetRepository.findAll()).thenReturn(Collections.singletonList(tweet));
-//
-//        Assertions.assertThat(this.twitterService.addTweet("testing")).containsExactly(tweet);
-//    }
+    @Test
+    public void shouldAddTheTweet() {
+        Tweet tweet = new Tweet("testing", "bcalm", "Vikram", "20-10-2020");
+        TweetActions tweetActions = new TweetActions(false, false, false, 0, 0, 0);
+        Twitter twitter = new Twitter("bcalm", "vikram", "20-10-2020", 0, 0);
+
+        Mockito.when(this.tweetRepository.save(tweet)).thenReturn(tweet);
+        Mockito.when(this.tweetActionRepository.save(tweetActions)).thenReturn(tweetActions);
+        Mockito.when(this.twitterRepository.findAll()).thenReturn(Collections.singletonList(twitter));
+        Mockito.when(this.tweetRepository.findAll()).thenReturn(Collections.singletonList(tweet));
+
+        Assertions.assertThat(this.twitterService.addTweet(tweet)).containsExactly(tweet);
+    }
 
     @Test
     public void shouldDeleteTheTweet() {
@@ -139,19 +139,19 @@ public class TwitterServiceTest {
         assertEquals(this.twitterService.getUserActionDetails(tweetActions.getTweetId()), tweetActions);
     }
 
-//    @Test
-//    public void shouldAddTheRetweet() {
-//        Tweet tweet = new Tweet("testing", "bcalm", "vikram", "20-10-2020");
-//        TweetActions tweetActions = new TweetActions(false, false, false, 0, 0, 0);
-//        Twitter twitter = new Twitter("bcalm", "vikram", "20-10-2020", 0, 0);
-//
-//        Mockito.when(this.twitterRepository.findAll()).thenReturn(Collections.singletonList(twitter));
-//        Mockito.when(this.tweetActionRepository.findById(tweetActions.getTweetId())).thenReturn(Optional.of(tweetActions));
-//        Mockito.when(this.tweetRepository.findById(tweet.getId())).thenReturn(Optional.of(tweet));
-//        Mockito.when(this.tweetRepository.findAll()).thenReturn(Collections.singletonList(tweet));
-//
-//        Assertions.assertThat(this.twitterService.addRetweet(tweet.getId())).containsExactly(tweet);
-//    }
+    @Test
+    public void shouldAddTheRetweet() {
+        Tweet tweet = new Tweet("testing", "bcalm", "vikram", "20-10-2020");
+        TweetActions tweetActions = new TweetActions(false, false, false, 0, 0, 0);
+        Twitter twitter = new Twitter("bcalm", "vikram", "20-10-2020", 0, 0);
+
+        Mockito.when(this.twitterRepository.findAll()).thenReturn(Collections.singletonList(twitter));
+        Mockito.when(this.tweetActionRepository.findById(tweetActions.getTweetId())).thenReturn(Optional.of(tweetActions));
+        Mockito.when(this.tweetRepository.findById(tweet.getId())).thenReturn(Optional.of(tweet));
+        Mockito.when(this.tweetRepository.findAll()).thenReturn(Collections.singletonList(tweet));
+
+        Assertions.assertThat(this.twitterService.addRetweet(tweet, tweet.getId())).containsExactly(tweet);
+    }
 
     @Test
     public void shouldDeleteTheRetweet() {
