@@ -18,8 +18,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -45,11 +48,7 @@ public class TwitterControllerTest {
         Mockito.when(twitterService.getTwitterDetails("bcalm")).thenReturn(twitter);
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
 
-        MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
-        MockHttpServletResponse response = mvcResult.getResponse();
-        String outputInJson = response.getContentAsString();
-
-        assertEquals(inputInJson, outputInJson);
+        assertExpected(inputInJson, requestBuilder);
     }
 
 
@@ -57,54 +56,39 @@ public class TwitterControllerTest {
     public void shouldGetAllTweets() throws Exception {
         String url = "/api/getTweets";
         Tweet tweet = new Tweet("testing", "Vikram Singh", "bcalm", "20-10-2020");
-        List<Tweet> tweets = new ArrayList<>();
-        tweets.add(tweet);
+        List<Tweet> tweets = Collections.singletonList(tweet);
         String inputInJson = new ObjectMapper().writeValueAsString(tweets);
 
         Mockito.when(twitterService.getTweets()).thenReturn(tweets);
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
 
-        MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
-        MockHttpServletResponse response = mvcResult.getResponse();
-        String outputInJson = response.getContentAsString();
-
-        assertEquals(inputInJson, outputInJson);
+        assertExpected(inputInJson, requestBuilder);
     }
 
     @Test
     public void shouldGetAllRetweets() throws Exception {
         String url = "/api/getRetweets";
         Tweet tweet = new Tweet("testing", "Vikram Singh", "bcalm", "20-10-2020");
-        List<Tweet> tweets = new ArrayList<>();
-        tweets.add(tweet);
+        List<Tweet> tweets = Collections.singletonList(tweet);
         String inputInJson = new ObjectMapper().writeValueAsString(tweets);
 
         Mockito.when(twitterService.getRetweets()).thenReturn(tweets);
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
 
-        MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
-        MockHttpServletResponse response = mvcResult.getResponse();
-        String outputInJson = response.getContentAsString();
-
-        assertEquals(inputInJson, outputInJson);
+        assertExpected(inputInJson, requestBuilder);
     }
 
     @Test
     public void shouldGetAllTweetsLikedByUser() throws Exception {
         String url = "/api/getLikeTweets";
         Tweet tweet = new Tweet("testing", "Vikram Singh", "bcalm", "20-10-2020");
-        List<Tweet> tweets = new ArrayList<>();
-        tweets.add(tweet);
+        List<Tweet> tweets = Collections.singletonList(tweet);
         String inputInJson = new ObjectMapper().writeValueAsString(tweets);
 
         Mockito.when(twitterService.getLikeTweets()).thenReturn(tweets);
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
 
-        MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
-        MockHttpServletResponse response = mvcResult.getResponse();
-        String outputInJson = response.getContentAsString();
-
-        assertEquals(inputInJson, outputInJson);
+        assertExpected(inputInJson, requestBuilder);
     }
 
     @Test
@@ -112,8 +96,7 @@ public class TwitterControllerTest {
         String url = "/api/addTweet";
         Tweet tweet = new Tweet("testing", "Vikram Singh", "bcalm", "20-10-2020");
         tweet.setId(1);
-        List<Tweet> tweets = new ArrayList<>();
-        tweets.add(tweet);
+        List<Tweet> tweets = Collections.singletonList(tweet);
         String inputInJson = new ObjectMapper().writeValueAsString(tweets);
 
         Mockito.when(this.twitterService.addTweet(any(Tweet.class))).thenReturn(tweets);
@@ -122,19 +105,14 @@ public class TwitterControllerTest {
                 .content(new ObjectMapper().writeValueAsString(tweet))
                 .contentType(MediaType.APPLICATION_JSON);
 
-        MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
-        MockHttpServletResponse response = mvcResult.getResponse();
-        String outputInJson = response.getContentAsString();
-
-        assertEquals(inputInJson, outputInJson);
+        assertExpected(inputInJson, requestBuilder);
     }
 
     @Test
     public void shouldDeleteTheTweet() throws Exception {
         String url = "/api/deleteTweet";
         Tweet tweet = new Tweet("testing", "Vikram Singh", "bcalm", "20-10-2020");
-        List<Tweet> tweets = new ArrayList<>();
-        tweets.add(tweet);
+        List<Tweet> tweets = Collections.singletonList(tweet);
         String inputInJson = new ObjectMapper().writeValueAsString(tweets);
 
         Mockito.when(twitterService.deleteTweet((long) 1.0)).thenReturn(tweets);
@@ -143,11 +121,7 @@ public class TwitterControllerTest {
                 .content("1")
                 .contentType(MediaType.APPLICATION_JSON);
 
-        MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
-        MockHttpServletResponse response = mvcResult.getResponse();
-        String outputInJson = response.getContentAsString();
-
-        assertEquals(inputInJson, outputInJson);
+        assertExpected(inputInJson, requestBuilder);
     }
 
     @Test
@@ -162,12 +136,9 @@ public class TwitterControllerTest {
                 .content("1")
                 .contentType(MediaType.APPLICATION_JSON);
 
-        MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
-        MockHttpServletResponse response = mvcResult.getResponse();
-        String outputInJson = response.getContentAsString();
-
-        assertEquals(inputInJson, outputInJson);
+        assertExpected(inputInJson, requestBuilder);
     }
+
 
     @Test
     public void shouldGiveAllActionsDoneByUSer() throws Exception {
@@ -181,11 +152,7 @@ public class TwitterControllerTest {
                 .content("1")
                 .contentType(MediaType.APPLICATION_JSON);
 
-        MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
-        MockHttpServletResponse response = mvcResult.getResponse();
-        String outputInJson = response.getContentAsString();
-
-        assertEquals(inputInJson, outputInJson);
+        assertExpected(inputInJson, requestBuilder);
     }
 
     @Test
@@ -202,10 +169,15 @@ public class TwitterControllerTest {
                 .content(new ObjectMapper().writeValueAsString(tweet))
                 .contentType(MediaType.APPLICATION_JSON);
 
+        assertExpected(inputInJson, requestBuilder);
+    }
+
+    private void assertExpected(String inputInJson, RequestBuilder requestBuilder) throws Exception {
         MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = mvcResult.getResponse();
         String outputInJson = response.getContentAsString();
 
         assertEquals(inputInJson, outputInJson);
     }
+
 }

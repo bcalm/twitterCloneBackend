@@ -7,14 +7,12 @@ import com.twitter.repository.TweetActionRepository;
 import com.twitter.repository.TweetRepository;
 import com.twitter.repository.TwitterRepository;
 import org.assertj.core.api.Assertions;
-import org.assertj.core.internal.Iterables;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.*;
@@ -25,20 +23,19 @@ import static org.junit.Assert.*;
 @SpringBootTest
 public class TwitterServiceTest {
 
-    @Autowired
+    @InjectMocks
     private TwitterService twitterService;
-    @MockBean
+    @Mock
     private TweetRepository tweetRepository;
-    @MockBean
+    @Mock
     private TweetActionRepository tweetActionRepository;
-    @MockBean
+    @Mock
     private TwitterRepository twitterRepository;
 
     @Test
     public void shouldGetAllTheTweets() {
         Tweet tweet = new Tweet("testing", "Vicky", "bcalm", "20-10-2020");
-        List<Tweet> tweets = new ArrayList<>();
-        tweets.add(tweet);
+        List<Tweet> tweets = Collections.singletonList(tweet);
 
         Mockito.when(this.tweetRepository.findAll()).thenReturn(tweets);
         assertEquals(twitterService.getTweets(), tweets);
@@ -51,9 +48,7 @@ public class TwitterServiceTest {
 
         TweetActions tweetActions1 = new TweetActions(false, false, false, 0, 0, 0);
         TweetActions tweetActions2 = new TweetActions(false, true, false, 0, 0, 1);
-        List<TweetActions> tweetsActions = new ArrayList<>();
-        tweetsActions.add(tweetActions1);
-        tweetsActions.add(tweetActions2);
+        List<TweetActions> tweetsActions = Arrays.asList(tweetActions1, tweetActions2);
 
         Mockito.when(this.tweetActionRepository.findAll()).thenReturn(tweetsActions);
         Mockito.when(this.tweetRepository.findById(tweet1.getId())).thenReturn(java.util.Optional.of(tweet1));
@@ -69,9 +64,7 @@ public class TwitterServiceTest {
 
         TweetActions tweetActions1 = new TweetActions(false, false, false, 0, 0, 0);
         TweetActions tweetActions2 = new TweetActions(true, false, false, 1, 0, 0);
-        List<TweetActions> tweetsActions = new ArrayList<>();
-        tweetsActions.add(tweetActions1);
-        tweetsActions.add(tweetActions2);
+        List<TweetActions> tweetsActions = Arrays.asList(tweetActions1, tweetActions2);
 
         Mockito.when(this.tweetActionRepository.findAll()).thenReturn(tweetsActions);
         Mockito.when(this.tweetRepository.findById(tweet1.getId())).thenReturn(java.util.Optional.of(tweet1));

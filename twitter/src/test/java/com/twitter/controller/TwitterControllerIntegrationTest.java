@@ -19,6 +19,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -132,9 +133,8 @@ public class TwitterControllerIntegrationTest {
         Tweet tweet2 = new Tweet("testing", "Vikram", "bcalm", "20-10-2020");
         tweet1.setId(1);
         tweet2.setId(2);
-        List<Tweet> tweets = new ArrayList<>();
-        tweets.add(tweet2);
-        tweets.add(tweet1);
+        List<Tweet> tweets = Arrays.asList(tweet2, tweet1);
+
 
         HttpEntity<Object> entity = new HttpEntity<>(headers);
         ResponseEntity<String> response = testRestTemplate.exchange(url, HttpMethod.GET, entity, String.class);
@@ -162,11 +162,7 @@ public class TwitterControllerIntegrationTest {
         tweet1.setId(1);
         tweet2.setId(2);
         tweet3.setId(3);
-        ArrayList<Tweet> tweets = new ArrayList<>();
-        tweets.add(tweet1);
-        tweets.add(tweet2);
-        tweets.add(tweet3);
-        return tweets;
+        return new ArrayList<>(Arrays.asList(tweet1, tweet2, tweet3));
     }
 
     private String createUrl(String uri) {

@@ -9,9 +9,12 @@ import com.twitter.repository.TwitterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class TwitterService implements ITwitterService {
@@ -34,28 +37,24 @@ public class TwitterService implements ITwitterService {
 
     @Override
     public List<Tweet> getRetweets() {
-        List<Tweet> retweets = new ArrayList<>();
-        List<TweetActions> allTweetsActions = this.tweetActionRepository.findAll();
-        for (TweetActions tweetActions : allTweetsActions) {
-            if (tweetActions.isRetweeted()) {
-                Optional<Tweet> tweet = this.tweetRepository.findById(tweetActions.getTweetId());
-                tweet.ifPresent(retweets::add);
-            }
-        }
-        return retweets;
+        Stream<TweetActions> tweetActionsStream = this.tweetActionRepository.findAll().stream().filter(TweetActions::isRetweeted);
+        return getFilteredTweets(tweetActionsStream);
+    }
+
+    private ArrayList<Tweet> getFilteredTweets(Stream<TweetActions> tweetActionsStream) {
+        return tweetActionsStream.collect(ArrayList::new,
+                (ArrayList<Tweet> tweets, TweetActions tweetAction) -> {
+                    Optional<Tweet> tweet = this.tweetRepository.findById(tweetAction.getTweetId());
+                    tweet.ifPresent(tweets::add);
+                },
+                ArrayList::addAll
+        );
     }
 
     @Override
     public List<Tweet> getLikeTweets() {
-        List<Tweet> likeTweets = new ArrayList<>();
-        List<TweetActions> allTweetsActions = this.tweetActionRepository.findAll();
-        for (TweetActions tweetActions : allTweetsActions) {
-            if (tweetActions.isLiked()) {
-                Optional<Tweet> tweet = this.tweetRepository.findById(tweetActions.getTweetId());
-                tweet.ifPresent(likeTweets::add);
-            }
-        }
-        return likeTweets;
+        Stream<TweetActions> tweetActionsStream = this.tweetActionRepository.findAll().stream().filter(TweetActions::isLiked);
+        return getFilteredTweets(tweetActionsStream);
     }
 
     @Override
