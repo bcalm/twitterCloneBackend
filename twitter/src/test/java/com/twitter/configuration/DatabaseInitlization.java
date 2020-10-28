@@ -28,11 +28,11 @@ class DatabaseInitialisation {
         this.twitterRepository.save(twitter);
 
     }
-//
-//    @Bean
-//    public void tweetIniiliser(){
-//        Tweet tweet1 = new Tweet("testing", "Vikram", "bcalm", "20-10-2020");
-//        this.tweetRepository.save(tweet1);
+
+    @Bean
+    public void tweetIniiliser(){
+        Tweet tweet1 = new Tweet("tweet", "bcalm", "hello", "20-10-2020", 0, 0, 0, 0);
+        this.tweetRepository.save(tweet1);
 //
 //        TweetActions tweetActions1 = new TweetActions(false, false, false, 0, 0, 0);
 //        this.tweetActionRepository.save(tweetActions1);
@@ -48,7 +48,7 @@ class DatabaseInitialisation {
 //
 //        TweetActions tweetActions3 = new TweetActions(false, true, false, 0, 0, 1);
 //        this.tweetActionRepository.save(tweetActions3);
-//    }
+    }
 }
 
 

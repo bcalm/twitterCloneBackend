@@ -10,28 +10,46 @@ public class Tweet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "content")
-    private String content;
 
-    @Column(name = "userName")
-    private String userName;
+    @Column(name = "type")
+    private String type;
 
     @Column(name = "userId")
     private String userId;
 
 
+    @Column(name = "content")
+    private String content;
+
     @Column(name = "timeStamp")
     private String timeStamp;
+
+    @Column(name = "reference")
+    private long reference;
+
+    @Column(name = "likeCount")
+    private long likeCount;
+
+    @Column(name = "replyCount")
+    private long replyCount;
+
+    @Column(name = "retweetCount")
+    private long retweetCount;
+
 
     public Tweet() {
         super();
     }
 
-    public Tweet(String content, String userName, String userId, String timeStamp) {
-        this.content = content;
-        this.userName = userName;
+    public Tweet(String type, String userId, String content, String timeStamp, long reference, long likeCount, long replyCount, long retweetCount) {
+        this.type = type;
         this.userId = userId;
+        this.content = content;
         this.timeStamp = timeStamp;
+        this.reference = reference;
+        this.likeCount = likeCount;
+        this.replyCount = replyCount;
+        this.retweetCount = retweetCount;
     }
 
     public long getId() {
@@ -42,20 +60,12 @@ public class Tweet {
         this.id = id;
     }
 
-    public String getContent() {
-        return content;
+    public String getType() {
+        return type;
     }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getUserId() {
@@ -66,6 +76,13 @@ public class Tweet {
         this.userId = userId;
     }
 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 
     public String getTimeStamp() {
         return timeStamp;
@@ -73,6 +90,38 @@ public class Tweet {
 
     public void setTimeStamp(String timeStamp) {
         this.timeStamp = timeStamp;
+    }
+
+    public long getReference() {
+        return reference;
+    }
+
+    public void setReference(long reference) {
+        this.reference = reference;
+    }
+
+    public long getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(long likeCount) {
+        this.likeCount = likeCount;
+    }
+
+    public long getReplyCount() {
+        return replyCount;
+    }
+
+    public void setReplyCount(long replyCount) {
+        this.replyCount = replyCount;
+    }
+
+    public long getRetweetCount() {
+        return retweetCount;
+    }
+
+    public void setRetweetCount(long retweetCount) {
+        this.retweetCount = retweetCount;
     }
 }
 

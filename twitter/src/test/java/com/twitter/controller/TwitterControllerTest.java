@@ -60,36 +60,54 @@ public class TwitterControllerTest {
         assertExpected(inputInJson, requestBuilder);
     }
 
+        @Test
+    public void shouldGiveTheTwitterDetails() throws Exception {
+        String url = "/api/getUserDetails/bcalm";
+        Twitter twitter = new Twitter("bcalm", "Vikram Singh","20-10-2029", "www.google.com", "20-10-2000", "Busy", 0, 0);
+        String inputInJson = new ObjectMapper().writeValueAsString(twitter);
+
+        Mockito.when(twitterService.getTwitterDetails("bcalm")).thenReturn(twitter);
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
+
+        assertExpected(inputInJson, requestBuilder);
+    }
+
+
     private String mapToJson(Object object) throws JsonProcessingException {
         return new ObjectMapper().writeValueAsString(object);
     }
 
-    //    @Test
-//    public void shouldGiveTheTwitterDetails() throws Exception {
-//        String url = "/api/getUserDetails/bcalm";
-//        Twitter twitter = new Twitter("bcalm", "Vikram Singh", "20-10-2020", 0, 0);
-//        String inputInJson = new ObjectMapper().writeValueAsString(twitter);
-//
-//        Mockito.when(twitterService.getTwitterDetails("bcalm")).thenReturn(twitter);
-//        RequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
-//
-//        assertExpected(inputInJson, requestBuilder);
-//    }
-//
-//
-//    @Test
-//    public void shouldGetAllTweets() throws Exception {
-//        String url = "/api/getTweets";
-//        Tweet tweet = new Tweet("testing", "Vikram Singh", "bcalm", "20-10-2020");
-//        List<Tweet> tweets = Collections.singletonList(tweet);
-//        String inputInJson = new ObjectMapper().writeValueAsString(tweets);
-//
-//        Mockito.when(twitterService.getTweets()).thenReturn(tweets);
-//        RequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
-//
-//        assertExpected(inputInJson, requestBuilder);
-//    }
-//
+    @Test
+    public void shouldAddTheTweet() throws Exception {
+        String url = "/api/addTweet";
+        Tweet tweet = new Tweet("tweet", "test_user","content", "ts", 0, 0,0,0);
+        tweet.setId(1);
+        List<Tweet> tweets = Collections.singletonList(tweet);
+        String inputInJson = new ObjectMapper().writeValueAsString(tweets);
+
+        Mockito.when(this.twitterService.addTweet(any(), any(Tweet.class))).thenReturn(tweets);
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post(url)
+                .header("userId", "test_user")
+                .accept(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(tweet))
+                .contentType(MediaType.APPLICATION_JSON);
+
+        assertExpected(inputInJson, requestBuilder);
+    }
+
+    @Test
+    public void shouldGetAllTweets() throws Exception {
+        String url = "/api/getTweets";
+        Tweet tweet = new Tweet("tweet", "bcalm", "hello", "20-10-2020", 0, 0, 0, 0);
+        List<Tweet> tweets = Collections.singletonList(tweet);
+        String inputInJson = new ObjectMapper().writeValueAsString(tweets);
+
+        Mockito.when(twitterService.getTweets("bcalm")).thenReturn(tweets);
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get(url).header("userId", "bcalm");
+
+        assertExpected(inputInJson, requestBuilder);
+    }
+
 //    @Test
 //    public void shouldGetAllRetweets() throws Exception {
 //        String url = "/api/getRetweets";
@@ -112,23 +130,6 @@ public class TwitterControllerTest {
 //
 //        Mockito.when(twitterService.getLikeTweets()).thenReturn(tweets);
 //        RequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
-//
-//        assertExpected(inputInJson, requestBuilder);
-//    }
-//
-//    @Test
-//    public void shouldAddTheTweet() throws Exception {
-//        String url = "/api/addTweet";
-//        Tweet tweet = new Tweet("testing", "Vikram Singh", "bcalm", "20-10-2020");
-//        tweet.setId(1);
-//        List<Tweet> tweets = Collections.singletonList(tweet);
-//        String inputInJson = new ObjectMapper().writeValueAsString(tweets);
-//
-//        Mockito.when(this.twitterService.addTweet(any(Tweet.class))).thenReturn(tweets);
-//        RequestBuilder requestBuilder = MockMvcRequestBuilders.post(url)
-//                .accept(MediaType.APPLICATION_JSON)
-//                .content(new ObjectMapper().writeValueAsString(tweet))
-//                .contentType(MediaType.APPLICATION_JSON);
 //
 //        assertExpected(inputInJson, requestBuilder);
 //    }

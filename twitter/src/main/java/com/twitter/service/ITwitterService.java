@@ -7,13 +7,13 @@ import com.twitter.model.TweetActions;
 import java.util.List;
 
 public interface ITwitterService {
-    List<Tweet> getTweets();
-
     List<Tweet> getRetweets();
 
     List<Tweet> getLikeTweets();
 
-    List<Tweet> addTweet(Tweet tweet);
+    List<Tweet> addTweet(String userId, Tweet tweet);
+
+    List<Tweet> getTweets(String userId);
 
     List<Tweet> deleteTweet(Long id);
 

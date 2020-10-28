@@ -1,5 +1,6 @@
 package com.twitter.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.twitter.model.Tweet;
 import com.twitter.model.Twitter;
 import com.twitter.model.TweetActions;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,10 +32,6 @@ public class TwitterService implements ITwitterService {
         this.twitterRepository = twitterRepository;
     }
 
-    @Override
-    public List<Tweet> getTweets() {
-        return null;
-    }
 
     @Override
     public List<Tweet> getRetweets() {
@@ -46,8 +44,15 @@ public class TwitterService implements ITwitterService {
     }
 
     @Override
-    public List<Tweet> addTweet(Tweet tweet) {
-        return null;
+    public List<Tweet> addTweet(String userId, Tweet tweet) {
+        tweet.setUserId(userId);
+        this.tweetRepository.save(tweet);
+        return this.tweetRepository.findAll();
+    }
+
+    @Override
+    public List<Tweet> getTweets(String userId) {
+        return this.tweetRepository.findAllByUserId(userId);
     }
 
     @Override
@@ -76,13 +81,17 @@ public class TwitterService implements ITwitterService {
     }
 
     @Override
-    public Twitter getTwitterDetails(String userId) {
-        return this.twitterRepository.findAll().get(0);
+    public Twitter saveUserDetails(Twitter twitter) {
+        return this.twitterRepository.save(twitter);
     }
 
     @Override
-    public Twitter saveUserDetails(Twitter twitter) {
-        return this.twitterRepository.save(twitter);
+    public Twitter getTwitterDetails(String userId) {
+        Optional<Twitter> twitter = this.twitterRepository.findById(userId);
+        if(twitter.isEmpty()){
+            return null;
+        }
+        return twitter.get();
     }
 //
 //    @Override

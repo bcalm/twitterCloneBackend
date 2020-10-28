@@ -1,5 +1,6 @@
 package com.twitter.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.twitter.model.Tweet;
 import com.twitter.model.Twitter;
 import com.twitter.model.TweetActions;
@@ -24,22 +25,22 @@ public class TwitterController {
     public Twitter saveUserDetails(@RequestBody Twitter twitter) {
         return this.twitterService.saveUserDetails(twitter);
     }
-//
-//    @GetMapping("/api/getUserDetails/{userId}")
-//    public Twitter getTwitterDetails(@PathVariable String userId) {
-//        return this.twitterService.getTwitterDetails(userId);
-//    }
-//
-//    @PostMapping("/api/addTweet")
-//    public List<Tweet> addTweet(@RequestBody Tweet tweet) {
-//        return this.twitterService.addTweet(tweet);
-//    }
-//
-//    @GetMapping("/api/getTweets")
-//    public List<Tweet> getAllTweets() {
-//        return this.twitterService.getTweets();
-//    }
-//
+
+    @GetMapping("/api/getUserDetails/{userId}")
+    public Twitter getTwitterDetails(@PathVariable String userId) {
+        return this.twitterService.getTwitterDetails(userId);
+    }
+
+    @PostMapping("/api/addTweet")
+    public List<Tweet> addTweet(@RequestHeader(value = "userId") String userId,@RequestBody Tweet tweet) {
+        return this.twitterService.addTweet(userId, tweet);
+    }
+
+    @GetMapping("/api/getTweets")
+    public List<Tweet> getAllTweets(@RequestHeader(value = "userId") String userId) {
+        return this.twitterService.getTweets(userId);
+    }
+
 //    @PostMapping("/api/getUserActionDetails")
 //    public TweetActions getUserActionDetails(@RequestBody Long tweetId) {
 //        return this.twitterService.getUserActionDetails(tweetId);
