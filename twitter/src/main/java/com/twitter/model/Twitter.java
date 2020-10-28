@@ -1,5 +1,4 @@
 package com.twitter.model;
-
 import javax.persistence.*;
 
 @Entity
@@ -7,17 +6,22 @@ import javax.persistence.*;
 public class Twitter {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
-
-    @Column(name = "userId")
-    private String userId;
 
     @Column(name = "userName")
     private String userName;
 
     @Column(name = "joinedAt")
     private String joinedAT;
+
+    @Column
+    private String imageUrl;
+
+    @Column
+    private String dob;
+
+    @Column
+    private String bio;
 
     @Column(name = "followersCount")
     private int followersCount;
@@ -29,20 +33,23 @@ public class Twitter {
         super();
     }
 
-    public Twitter(String userId, String userName, String joinedAT, int followersCount, int followingCount) {
-        this.userId = userId;
+    public Twitter(String id, String userName, String joinedAT, String imageUrl, String dob, String bio, int followersCount, int followingCount) {
+        this.id = id;
         this.userName = userName;
         this.joinedAT = joinedAT;
+        this.imageUrl = imageUrl;
+        this.dob = dob;
+        this.bio = bio;
         this.followersCount = followersCount;
         this.followingCount = followingCount;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getId() {
+        return id;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getUserName() {
@@ -61,6 +68,30 @@ public class Twitter {
         this.joinedAT = joinedAT;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getDob() {
+        return dob;
+    }
+
+    public void setDob(String dob) {
+        this.dob = dob;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
     public int getFollowersCount() {
         return followersCount;
     }
@@ -75,14 +106,6 @@ public class Twitter {
 
     public void setFollowingCount(int followingCount) {
         this.followingCount = followingCount;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 }
 

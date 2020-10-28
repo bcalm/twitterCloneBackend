@@ -23,32 +23,32 @@ class DatabaseInitialisation {
     private TweetActionRepository tweetActionRepository;
 
     @Bean
-    public void userInitiliser(){
-        Twitter twitter = new Twitter("bcalm", "Vikram", "20-10-2020", 0, 0);
+    public void userInitiliser() {
+        Twitter twitter = new Twitter("bcalm", "Vikram", "20-10-2020", "http://www.google.com", "20-10-2000", "Busy", 0, 0);
         this.twitterRepository.save(twitter);
 
     }
-
-    @Bean
-    public void tweetIniiliser(){
-        Tweet tweet1 = new Tweet("testing", "Vikram", "bcalm", "20-10-2020");
-        this.tweetRepository.save(tweet1);
-
-        TweetActions tweetActions1 = new TweetActions(false, false, false, 0, 0, 0);
-        this.tweetActionRepository.save(tweetActions1);
-
-        Tweet tweet2 = new Tweet("testing", "Vikram", "bcalm", "20-10-2020");
-        this.tweetRepository.save(tweet2);
-
-        TweetActions tweetActions2 = new TweetActions(true, false, false, 1, 0, 0);
-        this.tweetActionRepository.save(tweetActions2);
-
-        Tweet tweet3 = new Tweet("testing", "Vikram", "bcalm", "20-10-2020");
-        this.tweetRepository.save(tweet3);
-
-        TweetActions tweetActions3 = new TweetActions(false, true, false, 0, 0, 1);
-        this.tweetActionRepository.save(tweetActions3);
-    }
+//
+//    @Bean
+//    public void tweetIniiliser(){
+//        Tweet tweet1 = new Tweet("testing", "Vikram", "bcalm", "20-10-2020");
+//        this.tweetRepository.save(tweet1);
+//
+//        TweetActions tweetActions1 = new TweetActions(false, false, false, 0, 0, 0);
+//        this.tweetActionRepository.save(tweetActions1);
+//
+//        Tweet tweet2 = new Tweet("testing", "Vikram", "bcalm", "20-10-2020");
+//        this.tweetRepository.save(tweet2);
+//
+//        TweetActions tweetActions2 = new TweetActions(true, false, false, 1, 0, 0);
+//        this.tweetActionRepository.save(tweetActions2);
+//
+//        Tweet tweet3 = new Tweet("testing", "Vikram", "bcalm", "20-10-2020");
+//        this.tweetRepository.save(tweet3);
+//
+//        TweetActions tweetActions3 = new TweetActions(false, true, false, 0, 0, 1);
+//        this.tweetActionRepository.save(tweetActions3);
+//    }
 }
 
 
