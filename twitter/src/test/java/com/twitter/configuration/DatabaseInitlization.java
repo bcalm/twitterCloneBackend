@@ -1,9 +1,9 @@
 package com.twitter.configuration;
 
+import com.twitter.model.Like;
 import com.twitter.model.Tweet;
-import com.twitter.model.TweetActions;
 import com.twitter.model.Twitter;
-import com.twitter.repository.TweetActionRepository;
+import com.twitter.repository.LikeRepository;
 import com.twitter.repository.TweetRepository;
 import com.twitter.repository.TwitterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ class DatabaseInitialisation {
     private TweetRepository tweetRepository;
 
     @Autowired
-    private TweetActionRepository tweetActionRepository;
+    private LikeRepository likeRepository;
 
     @Bean
     public void userInitiliser() {
@@ -30,10 +30,15 @@ class DatabaseInitialisation {
     }
 
     @Bean
-    public void tweetIniiliser(){
+    public void tweetIniiliser() {
         Tweet tweet1 = new Tweet("tweet", "bcalm", "hello", "20-10-2020", 0, 0, 0, 0);
         this.tweetRepository.save(tweet1);
-//
+
+        Tweet tweet2 = new Tweet("tweet", "bcalm", "hello", "20-10-2020", 0, 1, 0, 0);
+        this.tweetRepository.save(tweet2);
+
+        this.likeRepository.save(new Like(2, "bcalm"));
+
 //        TweetActions tweetActions1 = new TweetActions(false, false, false, 0, 0, 0);
 //        this.tweetActionRepository.save(tweetActions1);
 //

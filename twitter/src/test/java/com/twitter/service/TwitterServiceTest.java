@@ -1,23 +1,14 @@
 package com.twitter.service;
 
-import com.twitter.model.Tweet;
-import com.twitter.model.TweetActions;
-import com.twitter.model.Twitter;
-import com.twitter.repository.TweetActionRepository;
+import com.twitter.repository.LikeRepository;
 import com.twitter.repository.TweetRepository;
 import com.twitter.repository.TwitterRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.*;
-
-import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -28,7 +19,7 @@ public class TwitterServiceTest {
     @Mock
     private TweetRepository tweetRepository;
     @Mock
-    private TweetActionRepository tweetActionRepository;
+    private LikeRepository likeRepository;
     @Mock
     private TwitterRepository twitterRepository;
 

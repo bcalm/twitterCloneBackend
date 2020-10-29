@@ -1,9 +1,7 @@
 package com.twitter.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.twitter.model.Tweet;
 import com.twitter.model.Twitter;
-import com.twitter.model.TweetActions;
 import com.twitter.service.TwitterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +39,11 @@ public class TwitterController {
         return this.twitterService.getTweets(userId);
     }
 
+    @PostMapping("/api/addLike")
+    public Tweet toggleLike(@RequestHeader(value = "userId") String userId, @RequestBody Long tweetId) {
+        return this.twitterService.toggleLike(userId, tweetId);
+    }
+
 //    @PostMapping("/api/getUserActionDetails")
 //    public TweetActions getUserActionDetails(@RequestBody Long tweetId) {
 //        return this.twitterService.getUserActionDetails(tweetId);
@@ -56,10 +59,6 @@ public class TwitterController {
 //        return this.twitterService.getRetweets();
 //    }
 //
-//    @PostMapping("/api/addLike")
-//    public TweetActions toggleLike(@RequestBody Long tweetId) {
-//        return this.twitterService.toggleLike(tweetId);
-//    }
 //
 //    @GetMapping("/api/getLikeTweets")
 //    public List<Tweet> getLikeTweets() {

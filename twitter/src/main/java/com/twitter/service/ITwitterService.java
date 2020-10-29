@@ -2,7 +2,7 @@ package com.twitter.service;
 
 import com.twitter.model.Tweet;
 import com.twitter.model.Twitter;
-import com.twitter.model.TweetActions;
+import com.twitter.model.Like;
 
 import java.util.List;
 
@@ -17,9 +17,9 @@ public interface ITwitterService {
 
     List<Tweet> deleteTweet(Long id);
 
-    TweetActions toggleLike(Long id);
+    Tweet toggleLike(String userId, Long id);
 
-    TweetActions getUserActionDetails(Long id);
+    Like getUserActionDetails(Long id);
 
     List<Tweet> addRetweet(Tweet tweet, Long id);
 

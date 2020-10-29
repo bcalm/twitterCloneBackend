@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.twitter.TwitterApplication;
 import com.twitter.model.Tweet;
-import com.twitter.model.TweetActions;
 import com.twitter.model.Twitter;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -68,7 +67,7 @@ public class TwitterControllerIntegrationTest {
     @Test
     public void shouldAddTheTweet() throws JsonProcessingException {
         String url = createUrl("addTweet");
-        Tweet tweet = new Tweet("tweet", "test_user","content", "ts", 0, 0,0,0);
+        Tweet tweet = new Tweet("tweet", "test_user", "content", "ts", 0, 0, 0, 0);
         tweet.setId(2);
         List<Tweet> tweets = getDefaultTweets();
         tweets.add(tweet);
@@ -98,35 +97,35 @@ public class TwitterControllerIntegrationTest {
         Assertions.assertThat(expected).isEqualTo(actual);
     }
 
-//    @Test
-//    public void shouldGetALlUserActionDetailsForSpecificTweet() throws JsonProcessingException {
-//        String url = createUrl("getUserActionDetails");
-//        TweetActions tweetActions = new TweetActions(false, false, false, 0, 0, 0);
-//        tweetActions.setTweetId(1);
-//
-//        String expected = new ObjectMapper().writeValueAsString(tweetActions);
-//
-//
-//        HttpEntity<Long> entity = new HttpEntity<>(1L, headers);
-//        ResponseEntity<String> response = testRestTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-//        String actual = response.getBody();
-//
-//        Assertions.assertThat(expected).isEqualTo(actual);
-//    }
-//
-//    @Test
-//    public void shouldAddTheLike() throws JsonProcessingException {
-//        String url = createUrl("addLike");
-//        TweetActions tweetActions = new TweetActions(true, false, false, 1, 0, 0);
-//        tweetActions.setTweetId(1L);
-//
-//        HttpEntity<Long> entity = new HttpEntity<>(1L, headers);
-//        ResponseEntity<String> response = testRestTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-//
-//        Assertions.assertThat(new ObjectMapper().writeValueAsString(tweetActions)).isEqualTo(response.getBody());
-//    }
-//
-//    @Test
+    @Test
+    public void shouldLikeTheTweet() throws JsonProcessingException {
+        String url = createUrl("addLike");
+        Tweet tweet = new Tweet("tweet", "bcalm", "hello", "20-10-2020", 0, 1, 0, 0);
+        tweet.setId(2);
+
+        headers.set("userId", "userId");
+        HttpEntity<Long> entity = new HttpEntity<>(2L, headers);
+        ResponseEntity<String> response = testRestTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+
+        Assertions.assertThat(new ObjectMapper().writeValueAsString(tweet)).isEqualTo(response.getBody());
+    }
+
+    @Test
+    public void shouldADislikeTheTweet() throws JsonProcessingException {
+        String url = createUrl("addLike");
+        Tweet tweet = new Tweet("tweet", "bcalm", "hello", "20-10-2020", 0, 0, 0, 0);
+        tweet.setId(2);
+
+        headers.set("userId", "bcalm");
+        HttpEntity<Long> entity = new HttpEntity<>(2L, headers);
+        ResponseEntity<String> response = testRestTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+
+        Assertions.assertThat(new ObjectMapper().writeValueAsString(tweet)).isEqualTo(response.getBody());
+    }
+
+
+
+    //    @Test
 //    public void shouldGiveAllLikedTweets() throws JsonProcessingException {
 //        String url = createUrl("getLikeTweets");
 //        Tweet tweet1 = new Tweet("testing", "Vikram", "bcalm", "20-10-2020");
