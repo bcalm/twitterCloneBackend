@@ -10,6 +10,7 @@ import java.util.List;
 @Repository
 public interface LikeRepository extends JpaRepository<Like, Long> {
     List<Like> findAllByTweetId(long id);
+    List<Like> findAllByUserId(String userId);
     @Transactional
     void deleteByTweetIdAndUserId(long id, String userId);
 }

@@ -37,7 +37,11 @@ class DatabaseInitialisation {
         Tweet tweet2 = new Tweet("tweet", "bcalm", "hello", "20-10-2020", 0, 1, 0, 0);
         this.tweetRepository.save(tweet2);
 
-        this.likeRepository.save(new Like(2, "bcalm"));
+        Tweet tweet3 = new Tweet("tweet", "bcalm", "hello", "20-10-2020", 0, 1, 0, 0);
+        this.tweetRepository.save(tweet3);
+
+        this.likeRepository.save(new Like(1, "bcalm"));
+        this.likeRepository.save(new Like(3, "bcalm"));
 
 //        TweetActions tweetActions1 = new TweetActions(false, false, false, 0, 0, 0);
 //        this.tweetActionRepository.save(tweetActions1);

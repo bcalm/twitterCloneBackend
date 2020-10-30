@@ -3,6 +3,7 @@ package com.twitter.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.twitter.TwitterApplication;
+import com.twitter.model.Like;
 import com.twitter.model.Tweet;
 import com.twitter.model.Twitter;
 import org.assertj.core.api.Assertions;
@@ -68,7 +69,7 @@ public class TwitterControllerIntegrationTest {
     public void shouldAddTheTweet() throws JsonProcessingException {
         String url = createUrl("addTweet");
         Tweet tweet = new Tweet("tweet", "test_user", "content", "ts", 0, 0, 0, 0);
-        tweet.setId(2);
+        tweet.setId(4);
         List<Tweet> tweets = getDefaultTweets();
         tweets.add(tweet);
         String inputInJson = new ObjectMapper().writeValueAsString(tweets);
@@ -84,10 +85,7 @@ public class TwitterControllerIntegrationTest {
     @Test
     public void shouldGiveAllTheTweets() throws JsonProcessingException {
         String url = createUrl("getTweets");
-        Tweet tweet = new Tweet("tweet", "bcalm", "hello", "20-10-2020", 0, 0, 0, 0);
-        tweet.setId(1);
-        List<Tweet> tweets = Collections.singletonList(tweet);
-        String expected = new ObjectMapper().writeValueAsString(tweets);
+        String expected = new ObjectMapper().writeValueAsString(getDefaultTweets());
 
         headers.set("userId", "bcalm");
         HttpEntity<?> entity = new HttpEntity<>(headers);
@@ -100,7 +98,7 @@ public class TwitterControllerIntegrationTest {
     @Test
     public void shouldLikeTheTweet() throws JsonProcessingException {
         String url = createUrl("addLike");
-        Tweet tweet = new Tweet("tweet", "bcalm", "hello", "20-10-2020", 0, 1, 0, 0);
+        Tweet tweet = new Tweet("tweet", "bcalm", "hello", "20-10-2020", 0, 3, 0, 0);
         tweet.setId(2);
 
         headers.set("userId", "userId");
@@ -113,7 +111,7 @@ public class TwitterControllerIntegrationTest {
     @Test
     public void shouldADislikeTheTweet() throws JsonProcessingException {
         String url = createUrl("addLike");
-        Tweet tweet = new Tweet("tweet", "bcalm", "hello", "20-10-2020", 0, 0, 0, 0);
+        Tweet tweet = new Tweet("tweet", "bcalm", "hello", "20-10-2020", 0, 2, 0, 0);
         tweet.setId(2);
 
         headers.set("userId", "bcalm");
@@ -123,41 +121,39 @@ public class TwitterControllerIntegrationTest {
         Assertions.assertThat(new ObjectMapper().writeValueAsString(tweet)).isEqualTo(response.getBody());
     }
 
+    @Test
+    public void shouldGiveAllLikedTweets() throws JsonProcessingException {
+        String url = createUrl("getLikeTweets");
+        String expected = this.mapToJson(getDefaultTweets());
 
+        headers.set("userId", "bcalm");
+        HttpEntity<Object> entity = new HttpEntity<>(headers);
+        ResponseEntity<String> response = testRestTemplate.exchange(url, HttpMethod.GET, entity, String.class);
 
-    //    @Test
-//    public void shouldGiveAllLikedTweets() throws JsonProcessingException {
-//        String url = createUrl("getLikeTweets");
-//        Tweet tweet1 = new Tweet("testing", "Vikram", "bcalm", "20-10-2020");
-//        Tweet tweet2 = new Tweet("testing", "Vikram", "bcalm", "20-10-2020");
-//        tweet1.setId(1);
-//        tweet2.setId(2);
-//        List<Tweet> tweets = Arrays.asList(tweet2, tweet1);
-//
-//
-//        HttpEntity<Object> entity = new HttpEntity<>(headers);
-//        ResponseEntity<String> response = testRestTemplate.exchange(url, HttpMethod.GET, entity, String.class);
-//
-//        Assertions.assertThat(response.getBody()).isEqualTo(new ObjectMapper().writeValueAsString(tweets));
-//    }
-//
-//    @Test
-//    public void shouldAddTheRetweet() throws JsonProcessingException {
-//        String url = createUrl("addRetweet/1");
-//        Tweet tweet = new Tweet("testing", "Vikram", "bcalm", "20-10-2020");
-//        tweet.setId(4);
-//        List<Tweet> tweets = getDefaultTweets();
-//        tweets.add(tweet);
-//        HttpEntity<Tweet> entity = new HttpEntity<>(tweet, headers);
-//        ResponseEntity<String> response = testRestTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-//
-//        Assertions.assertThat(new ObjectMapper().writeValueAsString(tweets)).isEqualTo(response.getBody());
-//    }
-//
+        Assertions.assertThat(response.getBody()).isEqualTo(expected);
+    }
+
+    @Test
+    public void shouldDeleteTheTweet() throws JsonProcessingException {
+        String url = createUrl("deleteTweet");
+        List<Tweet> tweets = getDefaultTweets();
+        tweets.get(1).setLikeCount(1);
+        String expected = this.mapToJson(tweets);
+
+        headers.set("userId", "bcalm");
+        HttpEntity<Object> entity = new HttpEntity<>(3L, headers);
+        ResponseEntity<String> response = testRestTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+
+        Assertions.assertThat(response.getBody()).isEqualTo(expected);
+
+    }
+
     private List<Tweet> getDefaultTweets() {
         Tweet tweet1 = new Tweet("tweet", "bcalm", "hello", "20-10-2020", 0, 0, 0, 0);
         tweet1.setId(1);
-        return new ArrayList<>(Arrays.asList(tweet1));
+        Tweet tweet2 = new Tweet("tweet", "bcalm", "hello", "20-10-2020", 0, 3, 0, 0);
+        tweet2.setId(2);
+        return new ArrayList<>(Arrays.asList(tweet1, tweet2));
     }
 
     private String createUrl(String uri) {
