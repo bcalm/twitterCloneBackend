@@ -3,7 +3,6 @@ package com.twitter.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.twitter.TwitterApplication;
-import com.twitter.model.Like;
 import com.twitter.model.Tweet;
 import com.twitter.model.Twitter;
 import org.assertj.core.api.Assertions;
@@ -18,10 +17,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -48,7 +45,6 @@ public class TwitterControllerIntegrationTest {
 
         Assertions.assertThat(responseInJson).isEqualTo(inputInJson);
     }
-
 
     @Test
     public void shouldGiveTheUserDetails() throws JsonProcessingException {
